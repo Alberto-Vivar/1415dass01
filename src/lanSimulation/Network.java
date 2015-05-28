@@ -284,34 +284,11 @@ Write a printable representation of #receiver on the given #buf.
 		assert isInitialized();
 		Node currentNode = firstNode_;
 		do {
-			switchStatement(buf, currentNode);
+			currentNode.switchStatement(buf);
 			buf.append(" -> ");
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != firstNode_);
 		buf.append(" ... ");
-	}
-
-	private void switchStatement(StringBuffer buf, Node currentNode) {
-		switch (currentNode.type_) {
-		case Node.NODE:
-			buf.append("Node ");
-			buf.append(currentNode.name_);
-			buf.append(" [Node]");
-			break;
-		case Node.WORKSTATION:
-			buf.append("Workstation ");
-			buf.append(currentNode.name_);
-			buf.append(" [Workstation]");
-			break;
-		case Node.PRINTER:
-			buf.append("Printer ");
-			buf.append(currentNode.name_);
-			buf.append(" [Printer]");
-			break;
-		default:
-			buf.append("(Unexpected)");;
-			break;
-		};
 	}
 
 	/**
@@ -326,7 +303,7 @@ Write a HTML representation of #receiver on the given #buf.
 		buf.append("\n\n<UL>");
 		do {
 			buf.append("\n\t<LI> ");
-			switchStatement(buf, currentNode);
+			currentNode.switchStatement(buf);
 			buf.append(" </LI>");
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != firstNode_);
