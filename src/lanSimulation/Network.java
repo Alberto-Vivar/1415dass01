@@ -39,7 +39,7 @@ public class Network {
     Holds a pointer to some "first" node in the token ring.
     Used to ensure that various printing operations return expected behaviour.
 	 */
-	private Node firstNode_;
+	public Node firstNode_;
 	/**
     Maps the names of workstations on the actual workstations.
     Used to initiate the requests for the network.
@@ -110,7 +110,7 @@ Answer whether #receiver contains a workstation with the given name.
 		if (n == null) {
 			return false;
 		} else {
-			return n.type_ == Node.WORKSTATION;
+			return n.getClass().equals(Workstation.class);
 		}
 	};
 
@@ -136,15 +136,15 @@ A consistent token ring network
 		iter = workstations_.elements();
 		while (iter.hasMoreElements()) {
 			currentNode = (Node) iter.nextElement();
-			if (currentNode.type_ != Node.WORKSTATION) {return false;};
+			if (!currentNode.getClass().equals(Workstation.class)) {return false;};
 		};
 		//enumerate the token ring, verifying whether all workstations are registered
 		//also count the number of printers and see whether the ring is circular
 		currentNode = firstNode_;
 		while (! encountered.containsKey(currentNode.name_)) {
 			encountered.put(currentNode.name_, currentNode);
-			if (currentNode.type_ == Node.WORKSTATION) {workstationsFound++;};
-			if (currentNode.type_ == Node.PRINTER) {printersFound++;};
+			if (currentNode.getClass().equals(Workstation.class)) {workstationsFound++;};
+			if (currentNode.getClass().equals(Printer.class)) {printersFound++;};
 			currentNode = currentNode.nextNode_;
 		};
 		if (currentNode != firstNode_) {return false;};//not circular
@@ -205,7 +205,8 @@ Therefore #receiver sends a packet across the token ring network, until either
 	 */
 	public boolean requestWorkstationPrintsDocument(String workstation, String document,
 			String printer, Writer report) {
-		assert consistentNetwork() & hasWorkstation(workstation);
+		assert consistentNetwork();
+		assert hasWorkstation(workstation);
 
 		try {
 			report.write("'");
@@ -310,40 +311,10 @@ Write a HTML representation of #receiver on the given #buf.
 		buf.append("\n\t<LI>...</LI>\n</UL>\n\n</BODY>\n</HTML>\n");
 	}
 
-	/**
-Write an XML representation of #receiver on the given #buf.
-<p><strong>Precondition:</strong> isInitialized();</p>
-	 */
-	public void printXMLOn (StringBuffer buf) {
-		assert isInitialized();
-
-		Node currentNode = firstNode_;
-		buf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<network>");
-		do {
-			buf.append("\n\t");
-			switch (currentNode.type_) {
-			case Node.NODE:
-				buf.append("<node>");
-				buf.append(currentNode.name_);
-				buf.append("</node>");
-				break;
-			case Node.WORKSTATION:
-				buf.append("<workstation>");
-				buf.append(currentNode.name_);
-				buf.append("</workstation>");
-				break;
-			case Node.PRINTER:
-				buf.append("<printer>");
-				buf.append(currentNode.name_);
-				buf.append("</printer>");
-				break;
-			default:
-				buf.append("<unknown></unknown>");;
-				break;
-			};
-			currentNode = currentNode.nextNode_;
-		} while (currentNode != firstNode_);
-		buf.append("\n</network>");
+	public void switchStatementXML(StringBuffer buf, Node currentNode) {
+		buf.append("<node>");
+		buf.append(currentNode.name_);
+		buf.append("</node>");
 	}
 
 }

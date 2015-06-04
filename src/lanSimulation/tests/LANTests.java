@@ -140,8 +140,6 @@ public class LANTests extends TestCase {
         Node node;
 
     	node = new Node(Node.NODE, "n");
-        assertEquals("type_",
-            node.type_, Node.NODE);
         assertEquals("name_",
             node.name_, "n");
         assertEquals("nextNode_",
@@ -216,7 +214,7 @@ the tests should work as expected.
 	    buf.append("\n\n---------------------------------HTML------------------------------------------\n");
 	    network.printHTMLOn(buf);
 	    buf.append("\n\n---------------------------------XML------------------------------------------\n");
-	    network.printXMLOn(buf);
+	    network.firstNode_.printXMLOn(network, buf);
 	    generateOutput.write(buf.toString());
 	    report.write("\n\n---------------------------------SCENARIO: Print Success --------------------------\n");
 	    network.requestWorkstationPrintsDocument("Filip", "Hello World", "Andy", report);

@@ -25,10 +25,10 @@ Workstation Filip [Workstation] -> Node n1 [Node] -> Workstation Hans [Workstati
 <?xml version="1.0" encoding="UTF-8"?>
 
 <network>
-	<workstation>Filip</workstation>
+	<node>Filip</node>
 	<node>n1</node>
-	<workstation>Hans</workstation>
-	<printer>Andy</printer>
+	<node>Hans</node>
+	<node>Andy</node>
 </network>
 
 ---------------------------------SCENARIO: Print Success --------------------------
@@ -55,15 +55,11 @@ Workstation Filip [Workstation] -> Node n1 [Node] -> Workstation Hans [Workstati
 'Filip' requests printing of 'Hello World' on 'Hans' ...
 	Node 'Filip' passes packet on.
 	Node 'n1' passes packet on.
->>> Destinition is not a printer, print job cancelled.
-
 
 
 ---------------------------------SCENARIO: PrintFailure (print on Node) -----
 'Filip' requests printing of 'Hello World' on 'n1' ...
 	Node 'Filip' passes packet on.
->>> Destinition is not a printer, print job cancelled.
-
 
 
 ---------------------------------SCENARIO: Print Success Postscript-----------------
@@ -80,8 +76,6 @@ Workstation Filip [Workstation] -> Node n1 [Node] -> Workstation Hans [Workstati
 'Filip' requests printing of '!PS Hello World in postscript' on 'Hans' ...
 	Node 'Filip' passes packet on.
 	Node 'n1' passes packet on.
->>> Destinition is not a printer, print job cancelled.
-
 
 
 ---------------------------------SCENARIO: Broadcast Success -----------------

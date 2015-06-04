@@ -12,4 +12,11 @@ public class Workstation extends Node {
 		buf.append(" [Workstation]");
 	}
 
+	public void switchStatementXML(StringBuffer buf, Node currentNode) {
+		buf.append("<workstation>");
+		buf.append(currentNode.name_);
+		buf.append("</workstation>");
+	}
+
+
 }
